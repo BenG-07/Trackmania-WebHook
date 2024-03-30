@@ -23,7 +23,7 @@ class WebHook
         req.Method = Method;
         req.Url = URL;
         if (AddHost)
-            req.Headers["Host"] = Regex::Search(URL, """(\w+)\.\w{2,}""")[0];
+            req.Headers["Host"] = Regex::Search(URL, """(\w+)\.\w{2,}(?=\/|$)""")[0];
         if (AddContentLength)
             req.Headers["Content-Length"] = "" + string(Body).Length;
         auto keys = Headers.GetKeys();

@@ -1,8 +1,8 @@
 [meta]
-name        = "DiscordWebHook"
+name        = "WebHook"
 author      = "Geiler_Hengst69"
 category    = "Utilities"
-version     = "0.1.0"
+version     = "0.1.1"
 
 [script]
 dependencies = [ "NadeoServices" ]

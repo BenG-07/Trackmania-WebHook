@@ -50,9 +50,9 @@ class PB
     
     string GetReachedMedal()
     {
-    #if DEPENDENCY_CHAMPIONMEDALS
+#if DEPENDENCY_CHAMPIONMEDALS
         if (CurrentPB <= Map.ChampionMedalTime) return settings_champion_medal_string;
-    #endif
+#endif
         if (CurrentPB <= Map.AuthorMedalTime) return settings_at_medal_string;
         if (CurrentPB <= Map.GoldMedalTime) return settings_gold_medal_string;
         if (CurrentPB <= Map.SilverMedalTime) return settings_silver_medal_string;
