@@ -1,0 +1,9 @@
+[meta]
+name        = "DiscordWebHook"
+author      = "Geiler_Hengst69"
+category    = "Utilities"
+version     = "0.1.0"
+
+[script]
+dependencies = [ "NadeoServices" ]
+optional_dependencies = [ "ChampionMedals", "Discord" ]
