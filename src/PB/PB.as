@@ -4,7 +4,8 @@ class PB
     Map@ Map;
     uint PreviousPB;
     uint CurrentPB;
-    int position;
+    int Position;
+    Medal Medal;
 
     PB(User@ user, Map@ map, uint previousPB, uint currentPB)
     {
@@ -12,7 +13,8 @@ class PB
         @Map = map;
         PreviousPB = previousPB;
         CurrentPB = currentPB;
-        position = GetPBPosition(Map.Uid, CurrentPB);
+        Position = GetPBPosition(Map.Uid, CurrentPB);
+        Medal = GetReachedMedal(CurrentPB, Map);
     }
 
     int GetPBPosition(const string &in mapUid, uint time)
@@ -48,15 +50,15 @@ class PB
         return -1;
     }
     
-    string GetReachedMedal()
+    private Medal GetReachedMedal(int currentPB, Map@ map)
     {
 #if DEPENDENCY_CHAMPIONMEDALS
-        if (CurrentPB <= Map.ChampionMedalTime) return settings_champion_medal_string;
+        if (currentPB <= map.ChampionMedalTime) return Medal::Champion;
 #endif
-        if (CurrentPB <= Map.AuthorMedalTime) return settings_at_medal_string;
-        if (CurrentPB <= Map.GoldMedalTime) return settings_gold_medal_string;
-        if (CurrentPB <= Map.SilverMedalTime) return settings_silver_medal_string;
-        if (CurrentPB <= Map.BronzeMedalTime) return settings_bronze_medal_string;
-        return settings_no_medal_string;
+        if (currentPB <= map.AuthorMedalTime) return Medal::Author;
+        if (currentPB <= map.GoldMedalTime) return Medal::Gold;
+        if (currentPB <= map.SilverMedalTime) return Medal::Silver;
+        if (currentPB <= map.BronzeMedalTime) return Medal::Bronze;
+        return Medal::No;
     }
 }

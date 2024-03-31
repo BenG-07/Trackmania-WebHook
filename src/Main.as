@@ -123,8 +123,8 @@ string GetInterpolatedBody(PB@ pb, string _body)
     {
         parts[i] = Regex::Replace(parts[i], userPattern, settings_discord_user_id);
         parts[i] = Regex::Replace(parts[i], TimePattern, Time::Format(pb.CurrentPB));
-        parts[i] = Regex::Replace(parts[i], RankPattern, "" + pb.position);
-        parts[i] = Regex::Replace(parts[i], MedalPattern, pb.GetReachedMedal());
+        parts[i] = Regex::Replace(parts[i], RankPattern, "" + pb.Position);
+        parts[i] = Regex::Replace(parts[i], MedalPattern, Medal::ToString(pb.Medal));
         parts[i] = Regex::Replace(parts[i], MapNamePattern, map.CleansedName);
     }
 
