@@ -50,7 +50,7 @@ class PB
         return -1;
     }
     
-    private Medal GetReachedMedal(int currentPB, Map@ map)
+    private Medal GetReachedMedal(uint currentPB, Map@ map)
     {
 #if DEPENDENCY_CHAMPIONMEDALS
         if (currentPB <= map.ChampionMedalTime) return Medal::Champion;
