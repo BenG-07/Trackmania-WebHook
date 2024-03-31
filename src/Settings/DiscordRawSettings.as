@@ -18,6 +18,9 @@ bool settings_SendPB = true;
 bool settings_SendRank = true;
 
 [Setting hidden]
+string settings_filter_string = "";
+
+[Setting hidden]
 string settings_discord_user_id = DiscordDefaults::UserId;
 
 [Setting hidden]
