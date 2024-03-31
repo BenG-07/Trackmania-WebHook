@@ -62,7 +62,7 @@ void PBLoop()
             Message@ message = CreateDiscordPBMessage(pb);
             messageHistory.Add(message);
 
-            if (settings_SendPB)
+            if (settings_SendPB && FilterSolver::FromSettings().Solve(pb))
                 SendDiscordWebHook(message);
 
             previousPB = currentPB;
@@ -124,7 +124,7 @@ string GetInterpolatedBody(PB@ pb, string _body)
         parts[i] = Regex::Replace(parts[i], userPattern, settings_discord_user_id);
         parts[i] = Regex::Replace(parts[i], TimePattern, Time::Format(pb.CurrentPB));
         parts[i] = Regex::Replace(parts[i], RankPattern, "" + pb.Position);
-        parts[i] = Regex::Replace(parts[i], MedalPattern, Medal::ToString(pb.Medal));
+        parts[i] = Regex::Replace(parts[i], MedalPattern, Medal::ToDiscordString(pb.Medal));
         parts[i] = Regex::Replace(parts[i], MapNamePattern, map.CleansedName);
     }
 
