@@ -35,7 +35,7 @@ void PBLoop()
 
     while (true)
     {
-        // Wait until players is on a map
+        // Wait until player is on a map
         while (!IsValidMap(currentMap))
         {
             sleep(3000);
@@ -112,20 +112,28 @@ string GetInterpolatedBody(PB@ pb, string _body)
 {
     Map@ map = pb.Map;
 
-    string userPattern = "\\[UserId\\]";
+    string userNamePattern = "\\[UserName\\]";
+    string userDiscordPattern = "\\[UserDiscordId\\]";
     string TimePattern = "\\[Time\\]";
+    string TimeDeltaPattern = "\\[TimeDelta\\]";
     string RankPattern = "\\[Rank\\]";
     string MedalPattern = "\\[Medal\\]";
     string MapNamePattern = "\\[MapName\\]";
+    string MapLinkPattern = "\\[MapLink\\]";
+    string ThumbnailPattern = "\\[ThumbnailLink\\]";
 
     array<string> parts = _body.Split("[[");
     for (uint i = 0; i < parts.Length; i++)
     {
-        parts[i] = Regex::Replace(parts[i], userPattern, settings_discord_user_id);
+        parts[i] = Regex::Replace(parts[i], userNamePattern, pb.User.Name);
+        parts[i] = Regex::Replace(parts[i], userDiscordPattern, settings_discord_user_id);
         parts[i] = Regex::Replace(parts[i], TimePattern, Time::Format(pb.CurrentPB));
+            parts[i] = Regex::Replace(parts[i], TimeDeltaPattern, pb.PreviousPB != uint(-1) ? " (-" + Time::Format(pb.PreviousPB - pb.CurrentPB) + ")" : "");
         parts[i] = Regex::Replace(parts[i], RankPattern, "" + pb.Position);
         parts[i] = Regex::Replace(parts[i], MedalPattern, Medal::ToDiscordString(pb.Medal));
         parts[i] = Regex::Replace(parts[i], MapNamePattern, map.CleansedName);
+        parts[i] = Regex::Replace(parts[i], MapLinkPattern, URL::TrackmaniaIOLeaderboard + map.Uid);
+        parts[i] = Regex::Replace(parts[i], ThumbnailPattern, map.TrackId != 0 ? URL::TrackmaniaExchangeThumbnail + map.TrackId : "");
     }
 
     return string::Join(parts, "[");
