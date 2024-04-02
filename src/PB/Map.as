@@ -2,6 +2,7 @@ class Map
 {
     string Uid;
     string Name;
+    string AuthorName;
     string CleansedName;
     uint BronzeMedalTime;
     uint SilverMedalTime;
@@ -15,6 +16,7 @@ class Map
     {
         Uid = map.MapInfo.MapUid;
         Name = map.MapInfo.Name;
+        AuthorName = map.MapInfo.AuthorNickName;
         CleansedName = GetCleansedTrackmaniaStyledString(Name);
 
         BronzeMedalTime = map.TMObjective_BronzeTime;
