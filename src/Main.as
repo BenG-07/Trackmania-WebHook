@@ -121,6 +121,7 @@ string GetInterpolatedBody(PB@ pb, string _body)
     string MapNamePattern = "\\[MapName\\]";
     string MapLinkPattern = "\\[MapLink\\]";
     string MapAuthorNamePattern = "\\[MapAuthorName\\]";
+    string MapAuthorLinkPattern = "\\[MapAuthorLink\\]";
     string ThumbnailPattern = "\\[ThumbnailLink\\]";
 
     array<string> parts = _body.Split("[[");
@@ -135,6 +136,7 @@ string GetInterpolatedBody(PB@ pb, string _body)
         parts[i] = Regex::Replace(parts[i], MapNamePattern, map.CleansedName);
         parts[i] = Regex::Replace(parts[i], MapLinkPattern, URL::TrackmaniaIOLeaderboard + map.Uid);
         parts[i] = Regex::Replace(parts[i], MapAuthorNamePattern, map.AuthorName);
+        parts[i] = Regex::Replace(parts[i], MapAuthorLinkPattern, URL::TrackmaniaIOPlayer + map.AuthorLogin);
         parts[i] = Regex::Replace(parts[i], ThumbnailPattern, map.TrackId != 0 ? URL::TrackmaniaExchangeThumbnail + map.TrackId : "");
     }
 
