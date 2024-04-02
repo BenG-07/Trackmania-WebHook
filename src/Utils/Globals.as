@@ -20,7 +20,7 @@ namespace DiscordDefaults
         "fields": [
         {
             "name": "Map",
-            "value": "[[[MapName]]([MapLink]) by [MapAuthorName]"
+            "value": "[[[MapName]]([MapLink]) by [[[MapAuthorName]]([MapAuthorLink])"
         },
         {
             "name": "Time",
