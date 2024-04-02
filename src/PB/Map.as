@@ -2,6 +2,7 @@ class Map
 {
     string Uid;
     string Name;
+    string AuthorName;
     string CleansedName;
     uint BronzeMedalTime;
     uint SilverMedalTime;
@@ -9,10 +10,13 @@ class Map
     uint AuthorMedalTime;
     uint ChampionMedalTime;
 
+    int TrackId;
+
     Map(CGameCtnChallenge@ map)
     {
         Uid = map.MapInfo.MapUid;
         Name = map.MapInfo.Name;
+        AuthorName = map.MapInfo.AuthorNickName;
         CleansedName = GetCleansedTrackmaniaStyledString(Name);
 
         BronzeMedalTime = map.TMObjective_BronzeTime;
@@ -22,6 +26,15 @@ class Map
 #if DEPENDENCY_CHAMPIONMEDALS
         ChampionMedalTime = ChampionMedals::GetCMTime();
 #endif
+
+        WebRequest webRequest = 
+        WebRequest(Net::HttpMethod::Get, URL::TrackmaniaExchangeGetMapInfo + Uid, Json::Parse("""{"User-Agent":"TrackManiaWebhook/0.0.1"}"""), "", true, false);
+        auto response = webRequest.Send();
+        if (response.ResponseCode() != 200) return;
+
+        if (response.Json().GetType() != Json::Type::Object) return;
+        if (response.Json().HasKey("TrackID"))
+            TrackId = response.Json().Get("TrackID");
     }
 
     string GetCleansedTrackmaniaStyledString(string _dirty)

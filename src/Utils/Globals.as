@@ -13,18 +13,18 @@ namespace DiscordDefaults
     "username": "Trackmania",
     "avatar_url": """ + "\"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCHBYTbusq8rivJAHP59YQbUtiqoqpbiPUS2Mdxi_pDgiYqGtttj0sS3EO05JS6Xama2A&usqp=CAU\"" + """,
     "flags": """ + (1 << 12) + """,
-    "content": "<@[UserId]> got a new PB [Medal]",
+    "content": "#[UserName] (<@[UserDiscordId]>) got a new PB [Medal]",
     "embeds": [
     {
         "color": 65290,
         "fields": [
         {
             "name": "Map",
-            "value": "[MapName]"
+            "value": "[[[MapName]]([MapLink]) by [MapAuthorName]"
         },
         {
             "name": "Time",
-            "value": "[Time]",
+            "value": "[Time][TimeDelta]",
             "inline": true
         },
         {
@@ -32,7 +32,10 @@ namespace DiscordDefaults
             "value": "[Rank]",
             "inline": true
         }
-        ]
+        ],
+        "thumbnail": {
+            "url": "[ThumbnailLink]"
+        }
     }
     ]
 }""";
