@@ -51,7 +51,7 @@ namespace LogicalConnection
         {
             auto filter = filters[i];
             temp = filter.Result && temp;
-            if (filter.LogicalConnection == LogicalConnection::Or)
+            if (filter.LogicalConnection == LogicalConnection::Or && i != filters.Length - 1)
             {
                 values.InsertLast(temp);
                 temp = true;
