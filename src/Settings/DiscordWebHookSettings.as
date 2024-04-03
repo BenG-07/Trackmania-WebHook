@@ -128,6 +128,9 @@ void RenderDiscordSettings()
 
 #if SIG_DEVELOPER
     settings_AdvancedDiscordSettings = UI::Checkbox("Advanced Settings", settings_AdvancedDiscordSettings);
+#else
+    if (settings_AdvancedDiscordSettings)
+        settings_AdvancedDiscordSettings = UI::Checkbox("Advanced Settings", settings_AdvancedDiscordSettings);
 #endif
 
     if (!settings_AdvancedDiscordSettings) return;
