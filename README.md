@@ -2,10 +2,21 @@
 
 
 ## WebHook
-This plugin sends your Personal Best to a Discord webhook.
+This plugin can post your new Personal Best in a [Discord®](https://discord.com/) Channel.
+
+## Important!
+**DO ONLY SHARE YOUR WEBHOOK TOKEN WITH PEOPLE YOU TRUST!**
+ANYONE IN POSESSION OF THE TOKEN CAN SEND ANY MESSAGE THEY WANT OR EVEN DELETE THE WEBHOOK!
+
+## Requirements
+* Discord Webhook ID
+* Discord Webhook Token
 
 ## Configuration
-* Discord-Webhook URL: Set up a Discord webhook and copy the link into this field. (Make sure to allow @everyone to use external emojis in the Discord channel, the webhook is used in)
+### Discord
+* Grant @everyone permission to "Use External Emojis". (This is used to display the achieved medal)
+### Trackmania
+* Discord Webhook URL: copy the entire webhook URL (e.g.: `https://discord.com/api/webhooks/223704706495545344/3d89bb7572e0fb30d8128367b3b1b44fecd1726de135cbe28a41f8b2f777c372ba2939e72279b94526ff5d1bd4358d65cf11`) into the "Discord WebHook-URL" field in the settings.
 
 ## Bug reports
 Bug reports are most welcome [on GitHub](https://github.com/BenG-07/Trackmania-WebHook/issues). Contributions via pull requests are also welcome.
