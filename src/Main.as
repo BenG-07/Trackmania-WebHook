@@ -9,7 +9,9 @@ void Main()
         {
             if (Discord::IsReady())
             {
-                DiscordDefaults::UserId = Discord::GetUser().ID;
+                string discordUserId = Discord::GetUser().ID;
+                DiscordDefaults::UserId = discordUserId;
+                settings_discord_user_id = discordUserId;
                 Log("Got Discord User!");
                 break;
             }
