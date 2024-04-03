@@ -2,7 +2,7 @@
 name        = "DiscordNotify"
 author      = "Geiler_Hengst69"
 category    = "Utilities"
-version     = "0.2.1"
+version     = "0.2.2"
 siteid      = 524
 
 [script]
