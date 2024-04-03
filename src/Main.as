@@ -115,6 +115,7 @@ string GetInterpolatedBody(PB@ pb, string _body)
     Map@ map = pb.Map;
 
     string userNamePattern = "\\[UserName\\]";
+    string userLinkPattern = "\\[UserLink\\]";
     string userDiscordPattern = "\\[UserDiscordId\\]";
     string TimePattern = "\\[Time\\]";
     string TimeDeltaPattern = "\\[TimeDelta\\]";
@@ -130,6 +131,7 @@ string GetInterpolatedBody(PB@ pb, string _body)
     for (uint i = 0; i < parts.Length; i++)
     {
         parts[i] = Regex::Replace(parts[i], userNamePattern, pb.User.Name);
+        parts[i] = Regex::Replace(parts[i], userLinkPattern, URL::TrackmaniaIOPlayer + pb.User.Id);
         parts[i] = Regex::Replace(parts[i], userDiscordPattern, settings_discord_user_id);
         parts[i] = Regex::Replace(parts[i], TimePattern, Time::Format(pb.CurrentPB));
             parts[i] = Regex::Replace(parts[i], TimeDeltaPattern, pb.PreviousPB != uint(-1) ? " (-" + Time::Format(pb.PreviousPB - pb.CurrentPB) + ")" : "");
