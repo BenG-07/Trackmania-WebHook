@@ -1,0 +1,24 @@
+name: Feature Request
+description: Use this to make a feature request for the plugin.
+title: "[Suggestion]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for making a suggestion!
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe your idea/suggestion.
+      description: Provide a clear description of your suggestion.
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the solution you would like to see added.
+  - type: textarea
+    id: other-info
+    attributes:
+      label: Additional context
+      description: Leave any other relevant information or comments here.
