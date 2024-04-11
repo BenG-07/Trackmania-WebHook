@@ -151,12 +151,6 @@ void RenderDiscordSettings()
 		UI::EndTabItem();
     }
     
-    if (UI::BeginTabItem(Icons::File + " Request body"))
-    {
-        settings_Body = UI::InputTextMultiline("Request body", settings_Body);
-		UI::EndTabItem();
-    }
-    
     UI::EndTabBar();
 }
 
@@ -175,7 +169,6 @@ void RenderResetButton()
         settings_gold_medal_string = DiscordDefaults::GoldMedal;
         settings_at_medal_string = DiscordDefaults::AuthorMedal;
         settings_champion_medal_string = DiscordDefaults::ChampionMedal;
-        settings_Body = DiscordDefaults::Body;
     }
 }
 

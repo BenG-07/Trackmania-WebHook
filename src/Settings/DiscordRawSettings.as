@@ -59,6 +59,3 @@ string settings_at_medal_string = DiscordDefaults::AuthorMedal;
 
 [Setting hidden]
 string settings_champion_medal_string = DiscordDefaults::ChampionMedal;
-
-[Setting hidden]
-string settings_Body = DiscordDefaults::Body;
