@@ -41,17 +41,17 @@ class DiscordWebhookResponse : DiscordBase
     
     DiscordWebhookResponse(Json::Value webhook)
     {
-        if (webhook.HasKey("id")) @ID = webhook["id"];
-        Type = GetIntIfExists("type");
+        if (webhook.HasKey("id")) @ID = DiscordSnowflake(webhook["id"]);
+        Type = GetIntIfExists(webhook, "type");
         if (webhook.HasKey("guild_id")) GuildID = DiscordSnowflake(webhook["guild_id"]);
         if (webhook.HasKey("channel_id")) ChannelID = DiscordSnowflake(webhook["channel_id"]);
         if (webhook.HasKey("user")) User = DiscordUser(webhook["user"]);
-        Name = GetIntIfExists("name");
-        Avatar = GetIntIfExists("avatar");
-        Token = GetIntIfExists("token");
+        Name = GetStringIfExists(webhook, "name");
+        Avatar = GetStringIfExists(webhook, "avatar");
+        Token = GetStringIfExists(webhook, "token");
         // if (webhook.HasKey("source_guild")) @SourceGuild = DiscordGuild(webhook["source_guild"]);
         // if (webhook.HasKey("source_channel")) @SourceChannel = DiscordChannel(webhook["source_channel"]);
         if (webhook.HasKey("application_id")) ApplicationID = DiscordSnowflake(webhook["application_id"]);
-        URL = GetIntIfExists("url");
+        URL = GetStringIfExists(webhook, "url");
     }
 }
