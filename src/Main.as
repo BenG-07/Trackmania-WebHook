@@ -1,5 +1,3 @@
-MessageHistory@ messageHistory;
-
 void Main()
 {
 #if DEPENDENCY_DISCORD
@@ -21,7 +19,6 @@ void Main()
         }
     }
 #endif
-    @messageHistory = MessageHistory();
     startnew(PBLoop);
 }
 
@@ -61,8 +58,7 @@ void PBLoop()
         {
             Log("New PB: " + currentPB + " (" + Time::Format(currentPB - previousPB) + ")");
             PB@ pb = PB(user, map, previousPB, currentPB);
-            Message@ message = CreateDiscordPBMessage(pb);
-            messageHistory.Add(message);
+            auto message = CreateDiscordPBMessage(pb);
 
             if (settings_SendPB && FilterSolver::FromSettings().Solve(pb))
                 SendDiscordWebHook(message);
@@ -89,60 +85,37 @@ uint GetCurrBestTime(CTrackMania@ app, const string &in mapUid)
     return score_manager.Map_GetRecord_v2(user.Id, mapUid, "PersonalBest", "", "TimeAttack", "");
 }
 
-Message@ CreateDiscordPBMessage(PB@ pb)
-{
-    string url = settings_discord_URL;
-    string body = GetInterpolatedBody(pb, settings_Body);
-    DiscordWebHook@ webHook = DiscordWebHook(url, body);
-    
-    return Message(webHook);
-}
-
-void SendDiscordWebHook(Message@ message)
-{
-    Log("Sending Message to DiscordWebHook");
-    Networking::Response@ response = message.Send();
-
-    if (response.StatusCode != 204)
-    {
-        error("Sending message to hook was not successfull. Status:" + response.StatusCode);
-        error(response.ErrorMessage);
-    }
-}
-
-string GetInterpolatedBody(PB@ pb, string _body)
+DiscordWebhookMessage@ CreateDiscordPBMessage(PB@ pb)
 {
     Map@ map = pb.Map;
 
-    string userNamePattern = "\\[UserName\\]";
-    string userLinkPattern = "\\[UserLink\\]";
-    string userDiscordPattern = "\\[UserDiscordId\\]";
-    string TimePattern = "\\[Time\\]";
-    string TimeDeltaPattern = "\\[TimeDelta\\]";
-    string RankPattern = "\\[Rank\\]";
-    string MedalPattern = "\\[Medal\\]";
-    string MapNamePattern = "\\[MapName\\]";
-    string MapLinkPattern = "\\[MapLink\\]";
-    string MapAuthorNamePattern = "\\[MapAuthorName\\]";
-    string MapAuthorLinkPattern = "\\[MapAuthorLink\\]";
-    string ThumbnailPattern = "\\[ThumbnailLink\\]";
+    auto message = DiscordWebhookMessage();
+    auto embed = DiscordEmbed();
 
-    array<string> parts = _body.Split("[[");
-    for (uint i = 0; i < parts.Length; i++)
-    {
-        parts[i] = Regex::Replace(parts[i], userNamePattern, pb.User.Name);
-        parts[i] = Regex::Replace(parts[i], userLinkPattern, URL::TrackmaniaIOPlayer + pb.User.Id);
-        parts[i] = Regex::Replace(parts[i], userDiscordPattern, settings_discord_user_id);
-        parts[i] = Regex::Replace(parts[i], TimePattern, Time::Format(pb.CurrentPB));
-            parts[i] = Regex::Replace(parts[i], TimeDeltaPattern, pb.PreviousPB != uint(-1) ? " (-" + Time::Format(pb.PreviousPB - pb.CurrentPB) + ")" : "");
-        parts[i] = Regex::Replace(parts[i], RankPattern, "" + pb.Position);
-        parts[i] = Regex::Replace(parts[i], MedalPattern, Medal::ToDiscordString(pb.Medal));
-        parts[i] = Regex::Replace(parts[i], MapNamePattern, map.CleansedName);
-        parts[i] = Regex::Replace(parts[i], MapLinkPattern, URL::TrackmaniaIOLeaderboard + map.Uid);
-        parts[i] = Regex::Replace(parts[i], MapAuthorNamePattern, map.AuthorName);
-        parts[i] = Regex::Replace(parts[i], MapAuthorLinkPattern, URL::TrackmaniaIOPlayer + map.AuthorLogin);
-        parts[i] = Regex::Replace(parts[i], ThumbnailPattern, map.TrackId != 0 ? URL::TrackmaniaExchangeThumbnail + map.TrackId : "");
-    }
+    auto mapField = DiscordEmbedField("Map", "[" + map.Name + "](" + URL::TrackmaniaIOLeaderboard + map.Uid + ") by [" + map.AuthorName + "](" + URL::TrackmaniaIOPlayer + map.AuthorLogin + ")");
+    auto timeField = DiscordEmbedField("Time", Time::Format(pb.CurrentPB) + (pb.PreviousPB != uint(-1) ? " (-" + Time::Format(pb.PreviousPB - pb.CurrentPB) + ")" : ""), true);
+    auto rankField = DiscordEmbedField("Rank", "" + pb.Position, true);
 
-    return string::Join(parts, "[");
+    embed.Color = 65290;
+    embed.Fields.InsertLast(mapField);
+    embed.Fields.InsertLast(timeField);
+    embed.Fields.InsertLast(rankField);
+    @embed.Thumbnail = DiscordMedia(map.TrackId != 0 ? URL::TrackmaniaExchangeThumbnail + map.TrackId : "");
+
+    message.Username = "Trackmania";
+    message.AvatarUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCHBYTbusq8rivJAHP59YQbUtiqoqpbiPUS2Mdxi_pDgiYqGtttj0sS3EO05JS6Xama2A&usqp=CAU";
+    message.Flags = DiscordMessageFlags::SUPPRESS_NOTIFICATIONS;
+    message.Content = "#[" + pb.User.Name + "](" + URL::TrackmaniaIOPlayer + pb.User.Id +") (<@" + settings_discord_user_id + ">) got a new PB " + Medal::ToDiscordString(pb.Medal);
+    message.Embeds.InsertLast(embed);
+
+    return message;
+}
+
+void SendDiscordWebHook(DiscordWebhookMessage@ message)
+{
+    Log("Sending Message to DiscordWebhook");
+
+    string url = settings_discord_URL;
+    DiscordWebhook@ webHook = DiscordWebhook(url);
+    webHook.Execute(message, true);
 }
