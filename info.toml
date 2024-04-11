@@ -8,3 +8,23 @@ siteid      = 524
 [script]
 dependencies = [ "NadeoServices" ]
 optional_dependencies = [ "ChampionMedals", "Discord" ]
+shared_exports = [ 
+    "src/Export/Discord/DiscordAllowedMentions.as"
+    , "src/Export/Discord/DiscordAllowedMentionType.as"
+    , "src/Export/Discord/DiscordAuthor.as"
+    , "src/Export/Discord/DiscordBase.as"
+    , "src/Export/Discord/DiscordEmbed.as"
+    , "src/Export/Discord/DiscordEmbedField.as"
+    , "src/Export/Discord/DiscordFooter.as"
+    , "src/Export/Discord/DiscordMedia.as"
+    , "src/Export/Discord/DiscordMessage.as"
+    , "src/Export/Discord/DiscordMessageFlags.as"
+    , "src/Export/Discord/DiscordProvider.as"
+    , "src/Export/Discord/DiscordRole.as"
+    , "src/Export/Discord/DiscordSnowflake.as"
+    , "src/Export/Discord/DiscordUser.as"
+    , "src/Export/Discord/DiscordWebhook.as"
+    , "src/Export/Discord/DiscordWebhookMessage.as"
+    , "src/Export/Discord/DiscordWebhookResponse.as"
+    ]
+module = "DiscordNotify"
