@@ -1,15 +1,15 @@
 class PB
 {
-    User@ User;
+    Player@ Player;
     Map@ Map;
     uint PreviousPB;
     uint CurrentPB;
     int Position;
     Medal Medal;
 
-    PB(User@ user, Map@ map, uint previousPB, uint currentPB)
+    PB(Player@ player, Map@ map, uint previousPB, uint currentPB)
     {
-        @User = user;
+        Player = player;
         @Map = map;
         PreviousPB = previousPB;
         CurrentPB = currentPB;

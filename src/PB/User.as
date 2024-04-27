@@ -1,11 +1,11 @@
-class User
+class Player
 {
     string Id;
     string Name;
 
-    User(CGamePlayerInfo@ user)
+    Player(CGamePlayerInfo@ player)
     {
-        Id = user.WebServicesUserId;
-        Name = user.Name;
+        Id = player.WebServicesUserId;
+        Name = player.Name;
     }
 }
