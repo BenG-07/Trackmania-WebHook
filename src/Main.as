@@ -37,6 +37,8 @@ void PBLoop()
 
     while (true)
     {
+        sleep(1000);
+
         // Wait until player is on a map
         while (!IsValidMap(currentMap))
         {
@@ -54,6 +56,9 @@ void PBLoop()
             continue;
         }
 
+        if (map is null)
+            continue;
+
         currentPB = GetCurrBestTime(app, map.Uid);
 
         // New PB
@@ -69,14 +74,12 @@ void PBLoop()
 
             previousPB = currentPB;
         }
-        
-        sleep(1000);
     }
 }
 
 bool IsValidMap(CGameCtnChallenge@ map)
 {
-    if (map is null || map.MapInfo is null) return false;
+    if (map is null || map.MapInfo is null || GetApp().Editor !is null) return false;
 
     return true;
 }
