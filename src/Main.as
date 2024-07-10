@@ -56,7 +56,7 @@ void PBLoop()
             continue;
         }
 
-        if (map is null)
+        if (map is null || app.Network.ClientManiaAppPlayground is null)
             continue;
 
         currentPB = GetCurrBestTime(app, map.Uid);
@@ -86,6 +86,9 @@ bool IsValidMap(CGameCtnChallenge@ map)
 
 uint GetCurrBestTime(CTrackMania@ app, const string &in mapUid)
 {
+    if (app.Network.ClientManiaAppPlayground is null)
+        return uint(-1);
+
     auto user_manager = app.Network.ClientManiaAppPlayground.UserMgr;
     auto score_manager = app.Network.ClientManiaAppPlayground.ScoreMgr;
     auto user = user_manager.Users[0];
@@ -97,7 +100,7 @@ Message@ CreateDiscordPBMessage(PB@ pb)
     string url = settings_discord_URL;
     string body = GetInterpolatedBody(pb, settings_Body);
     DiscordWebHook@ webHook = DiscordWebHook(url, body);
-    
+
     return Message(webHook);
 }
 
