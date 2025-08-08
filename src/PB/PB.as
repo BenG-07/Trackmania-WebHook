@@ -17,13 +17,16 @@ class PB
         Medal = GetReachedMedal(CurrentPB, Map);
     }
 
+    // The positions returned by this endpoint correspond to existing records.
+    // documentation:https://webservices.openplanet.dev/live/leaderboards/surround
     int GetPBPosition(const string &in mapUid, uint time)
     {
         for (int tries = 0; tries < 10; tries++)
         {
             try
             {
-                auto info = Nadeo::LiveServiceRequest("/api/token/leaderboard/group/Personal_Best/map/" + mapUid + "/surround/0/0?onlyWorld=true");
+                auto info = Nadeo::LiveServiceGetRequest("/api/token/leaderboard/group/Personal_Best/map/" + mapUid + "/surround/0/0?onlyWorld=true&score=" + time);
+                LogJson("API Response Surround - Try " +  (tries + 1) + " of 10", info);
 
                 if (info.HasKey("tops"))
                 {
@@ -36,7 +39,7 @@ class PB
                         // If wrong time/leaderboard entry was fetched => try again
                         if(int(time) != score)
                         {
-                            sleep(100 * tries);
+                            sleep(100 * (tries + 1));
                             continue;
                         }
 
@@ -45,6 +48,9 @@ class PB
                 }
             }
             catch {}
+
+            // Wait between retries
+            sleep(100 * (tries + 1));
         }
 
         return -1;
