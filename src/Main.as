@@ -62,15 +62,24 @@ void PBLoop()
         currentPB = GetCurrBestTime(app, map.Uid);
 
         // New PB
-        if (currentPB < previousPB)
+        if (settings_SendPB && currentPB < previousPB)
         {
             Log("New PB: " + currentPB + " (" + Time::Format(currentPB - previousPB) + ")");
             PB@ pb = PB(user, map, previousPB, currentPB);
-            Message@ message = CreateDiscordPBMessage(pb);
-            messageHistory.Add(message);
+            
+            // Only send if position is valid (> 0)
+            if (pb.Position > 0)
+            {
+                Message@ message = CreateDiscordPBMessage(pb);
+                messageHistory.Add(message);
 
-            if (settings_SendPB && FilterSolver::FromSettings().Solve(pb))
-                SendDiscordWebHook(message);
+                if (FilterSolver::FromSettings().Solve(pb))
+                    SendDiscordWebHook(message);
+            }
+            else
+            {
+                Log("PB Position is " + pb.Position + ", skip Discord message for Map: " + map.Uid);
+            }
 
             previousPB = currentPB;
         }

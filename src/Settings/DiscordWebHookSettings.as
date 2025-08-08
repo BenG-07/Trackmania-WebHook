@@ -12,6 +12,12 @@ void RenderDiscordSettings()
     if (UI::BeginTabItem(Icons::Trophy + " PB"))
     {
         settings_SendPB = UI::Checkbox("Send PB", settings_SendPB);
+         if (UI::IsItemHovered())
+        {
+            UI::BeginTooltip();
+            UI::Text("Active to send a Discord message when a new personal best is achieved.");
+            UI::EndTooltip();
+        }
         UI::Separator();
         UI::Text("Filters");
         FilterSolver@ solver = FilterSolver::FromSettings();
